@@ -2,13 +2,11 @@
 {
     class Room
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         private static int counter = 0;
-
-        public Room()
+        public Room(int id)
         {
-            Id = counter;
-            counter++;
+            Id = id;
         }
     }
 }

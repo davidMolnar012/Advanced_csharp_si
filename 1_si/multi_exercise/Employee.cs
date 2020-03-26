@@ -1,28 +1,43 @@
-﻿namespace CreateClass
+﻿using System;
+
+namespace CreateClass
 {
-    class Employee : Person
+    class Employee : Person, ICloneable
     {
         public int Salery { get; set; }
         public string Profession { get; set; }
         public Room Room { get; set; }
-
+        public Employee(string name, Gender gender, string birthdate, string profession, int salery)
+        {
+            Name = name;
+            Gender = gender;
+            Birthdate = birthdate;
+            Profession = profession;
+            Salery = salery;
+        }
         public override string ToString()
         {
             return base.ToString() + "\n" + "Salery: " + Salery + " Profession: " + Profession + " Room id: " + Room.Id;
         }
 
-        static int Main(string[] args)
+        public object Clone()
         {
-            Employee employee = new Employee();
-            employee.Name = "Jane Austen";
-            employee.Gender = Gender.FEMALE;
-            employee.Birthdate = "1775.12.16";
-            employee.Profession = "novelist";
-            employee.Salery = 200;
-            employee.Room = new Room();
-            System.Console.WriteLine(employee.ToString());
-            
-            return 0;
+            Employee newEmployee = (Employee)this.MemberwiseClone();
+            newEmployee.Room = new Room(Room.Id);
+            return newEmployee;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Employee Kovacs = new Employee("Géza",Gender.MALE, DateTime.Now.ToString(), "léhűtő", 1000);
+            Kovacs.Room = new Room(111);
+            Employee Kovacs2 = (Employee)Kovacs.Clone();
+            Kovacs2.Room.Id = 112;
+            Console.WriteLine(Kovacs.ToString());
+            Console.WriteLine(Kovacs2.ToString());
+            Console.ReadKey();
         }
     }
 }
